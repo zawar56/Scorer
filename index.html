@@ -1,0 +1,2162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cricket Live Scorer</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --green: #087f5b;
+    --dark-green: #075c43;
+    --light-green: #e8f7f1;
+    --red: #d62828;
+    --orange: #f59f00;
+    --dark: #18252e;
+    --gray: #64727d;
+    --light: #f4f7f8;
+    --border: #dce4e8;
+    --white: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--light);
+    color: var(--dark);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    width: min(1100px, 94%);
+    margin: auto;
+}
+
+/* HEADER */
+
+.header {
+    margin-top: 20px;
+    padding: 28px;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--dark-green), #0a9b6f);
+    box-shadow: 0 10px 30px rgba(0,0,0,.12);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    opacity: .9;
+}
+
+/* CARD */
+
+.card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 22px;
+    margin: 18px 0;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 20px rgba(0,0,0,.05);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+/* SETUP */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccd6dc;
+    border-radius: 10px;
+    outline: none;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: var(--green);
+}
+
+.players {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+/* BUTTONS */
+
+.btn {
+    border: none;
+    padding: 13px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: .15s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.primary {
+    background: var(--green);
+    color: white;
+}
+
+.secondary {
+    background: #e9eef1;
+    color: var(--dark);
+}
+
+.dark {
+    background: var(--dark);
+    color: white;
+}
+
+.danger {
+    background: var(--red);
+    color: white;
+}
+
+.warning {
+    background: #fff1c7;
+    color: #795500;
+}
+
+.setup-button {
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* SCORE */
+
+.score-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 14px;
+}
+
+.score-box {
+    background: #f8fafb;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 18px;
+    text-align: center;
+}
+
+.label {
+    color: var(--gray);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.main-score {
+    font-size: 48px;
+    font-weight: 800;
+    margin: 8px 0;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+/* PLAYERS */
+
+.batsmen {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 15px;
+}
+
+/* SCORING BUTTONS */
+
+.scoring-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.run-btn {
+    min-height: 62px;
+    font-size: 22px;
+    background: var(--light-green);
+    color: var(--dark-green);
+    border: 2px solid #c8e9dc;
+}
+
+.extra-btn {
+    background: #fff1c7;
+    color: #765400;
+}
+
+.wicket-btn {
+    background: #ffe1e1;
+    color: #a20e0e;
+}
+
+.undo-btn {
+    background: var(--dark);
+    color: white;
+}
+
+/* OVER */
+
+.over-balls {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.ball {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #edf1f3;
+    border: 1px solid #d7dfe3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.ball.extra {
+    background: #fff1c7;
+    color: #805900;
+}
+
+.ball.wicket {
+    background: #ffdede;
+    color: #a10d0d;
+}
+
+/* TABLE */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background: #f5f7f8;
+}
+
+/* HISTORY */
+
+.history-item {
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+/* MATCH END */
+
+.match-ended {
+    margin-top: 18px;
+    padding: 18px;
+    text-align: center;
+    border-radius: 13px;
+    background: #fff0f0;
+    border: 2px solid #efb1b1;
+    color: #971818;
+    font-weight: bold;
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-box {
+    width: min(500px, 100%);
+    background: white;
+    padding: 24px;
+    border-radius: 18px;
+}
+
+.extra-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.note {
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+/* MOBILE */
+
+@media(max-width: 700px) {
+
+    .grid,
+    .players,
+    .score-grid,
+    .batsmen {
+        grid-template-columns: 1fr;
+    }
+
+    .scoring-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .main-score {
+        font-size: 40px;
+    }
+
+    .container {
+        width: 96%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+    <h1>🏏 Cricket Live Scorer</h1>
+    <p>Simple and fast cricket scoring web application</p>
+</header>
+
+
+<!-- ================= MATCH SETUP ================= -->
+
+<section id="setupSection" class="card">
+
+    <h2>Match Setup</h2>
+
+    <div class="grid">
+
+        <div class="field">
+            <label>Match No.</label>
+            <input
+                type="text"
+                id="matchNo"
+                placeholder="Example: Match 01"
+            >
+        </div>
+
+        <div class="field">
+            <label>Team Name</label>
+            <input
+                type="text"
+                id="teamName"
+                placeholder="Example: Team A"
+            >
+        </div>
+
+        <div class="field">
+            <label>Number of Overs</label>
+
+            <select id="overs">
+                <option value="1">1 Over</option>
+                <option value="2">2 Overs</option>
+                <option value="5">5 Overs</option>
+                <option value="10" selected>10 Overs</option>
+                <option value="20">20 Overs</option>
+                <option value="50">50 Overs</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Number of Players</label>
+
+            <select id="playerCount">
+            </select>
+        </div>
+
+    </div>
+
+
+    <h3 style="margin-top:25px;">
+        Player Names
+    </h3>
+
+    <div
+        id="playerInputs"
+        class="players">
+    </div>
+
+
+    <p class="note">
+        Maximum wickets are 10. The innings ends automatically
+        after 10 wickets or when the selected number of overs is completed.
+    </p>
+
+
+    <div class="setup-button">
+
+        <button
+            class="btn primary"
+            onclick="startMatch()">
+            🏏 Start Match
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= LIVE SCORE ================= -->
+
+<section
+    id="scoreSection"
+    class="hidden">
+
+<div class="card">
+
+    <div class="score-grid">
+
+        <div class="score-box">
+
+            <div
+                class="label"
+                id="teamDisplay">
+                Team A
+            </div>
+
+            <div class="main-score">
+
+                <span id="runsDisplay">0</span>
+
+                /
+
+                <span id="wicketsDisplay">0</span>
+
+            </div>
+
+            <div class="label">
+                Runs / Wickets
+            </div>
+
+        </div>
+
+
+        <div class="score-box">
+
+            <div class="label">
+                Overs
+            </div>
+
+            <div class="value">
+
+                <span id="completedOvers">
+                    0
+                </span>
+
+                .
+
+                <span id="currentBall">
+                    0
+                </span>
+
+            </div>
+
+            <div class="label">
+                Completed Overs / Ball
+            </div>
+
+        </div>
+
+
+        <div class="score-box">
+
+            <div class="label">
+                Match Overs
+            </div>
+
+            <div
+                id="totalOversDisplay"
+                class="value">
+                10
+            </div>
+
+            <div class="label">
+                Maximum 10 Wickets
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MATCH END -->
+
+    <div
+        id="matchEnded"
+        class="match-ended hidden">
+    </div>
+
+
+    <!-- BATSMEN -->
+
+    <div class="batsmen">
+
+        <div class="score-box">
+
+            <div class="label">
+                Striker
+            </div>
+
+            <div
+                id="strikerDisplay"
+                class="value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="score-box">
+
+            <div class="label">
+                Non-Striker
+            </div>
+
+            <div
+                id="nonStrikerDisplay"
+                class="value">
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCORING BUTTONS -->
+
+    <div class="scoring-grid">
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(0)">
+            0
+        </button>
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(1)">
+            1
+        </button>
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(2)">
+            2
+        </button>
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(3)">
+            3
+        </button>
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(4)">
+            4
+        </button>
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(5)">
+            5
+        </button>
+
+        <button
+            class="btn run-btn"
+            onclick="addRuns(6)">
+            6
+        </button>
+
+
+        <button
+            class="btn run-btn extra-btn"
+            onclick="openExtra('wide')">
+            WIDE
+        </button>
+
+
+        <button
+            class="btn run-btn extra-btn"
+            onclick="openExtra('noball')">
+            NO BALL
+        </button>
+
+
+        <button
+            class="btn run-btn wicket-btn"
+            onclick="addWicket()">
+            WICKET
+        </button>
+
+
+        <button
+            class="btn run-btn undo-btn"
+            onclick="undoLast()">
+            ↩ UNDO
+        </button>
+
+    </div>
+
+
+    <!-- CURRENT OVER -->
+
+    <div style="margin-top:25px;">
+
+        <h3>
+            Current Over
+        </h3>
+
+        <div
+            id="currentOver"
+            class="over-balls">
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn secondary"
+            onclick="resetMatch()">
+            Reset Match
+        </button>
+
+        <button
+            class="btn danger"
+            onclick="newMatch()">
+            New Match
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= SCORECARD ================= -->
+
+<div class="card">
+
+    <h2>
+        Player Scorecard
+    </h2>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Player</th>
+                    <th>Runs</th>
+                    <th>Balls</th>
+                    <th>4s</th>
+                    <th>6s</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="scorecard">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= BALL HISTORY ================= -->
+
+<div class="card">
+
+    <h2>
+        Ball-by-Ball History
+    </h2>
+
+    <div
+        id="history">
+    </div>
+
+</div>
+
+</section>
+
+</div>
+
+
+
+<!-- ================= EXTRA MODAL ================= -->
+
+<div
+    id="extraModal"
+    class="modal hidden">
+
+    <div class="modal-box">
+
+        <h2 id="extraTitle">
+            Wide
+        </h2>
+
+        <p>
+            Select the total runs for this delivery.
+            The delivery will NOT count as a legal ball.
+        </p>
+
+        <div
+            id="extraOptions"
+            class="extra-options">
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn secondary"
+                onclick="closeExtra()">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   GLOBAL MATCH STATE
+===================================================== */
+
+let match = null;
+
+let undoStack = [];
+
+const MAX_WICKETS = 10;
+
+
+
+/* =====================================================
+   PLAYER COUNT SETUP
+===================================================== */
+
+const playerCount =
+    document.getElementById("playerCount");
+
+for (let i = 2; i <= 15; i++) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = i;
+
+    option.textContent =
+        i + " Players";
+
+    if (i === 11) {
+        option.selected = true;
+    }
+
+    playerCount.appendChild(option);
+}
+
+
+playerCount.addEventListener(
+    "change",
+    createPlayerInputs
+);
+
+
+createPlayerInputs();
+
+
+
+/* =====================================================
+   CREATE PLAYER INPUTS
+===================================================== */
+
+function createPlayerInputs() {
+
+    const number =
+        Number(playerCount.value);
+
+    const container =
+        document.getElementById("playerInputs");
+
+    container.innerHTML = "";
+
+    for (let i = 0; i < number; i++) {
+
+        container.innerHTML += `
+
+            <div class="field">
+
+                <label>
+                    Player ${i + 1}
+                </label>
+
+                <input
+                    class="player-name"
+                    placeholder="Player ${i + 1}"
+                >
+
+            </div>
+
+        `;
+    }
+}
+
+
+
+/* =====================================================
+   START MATCH
+===================================================== */
+
+function startMatch() {
+
+    const names =
+        [...document.querySelectorAll(".player-name")]
+        .map(
+            (input, index) =>
+                input.value.trim() ||
+                `Player ${index + 1}`
+        );
+
+
+    const totalOvers =
+        Number(
+            document.getElementById("overs").value
+        );
+
+
+    const teamName =
+        document.getElementById("teamName")
+        .value.trim() || "Team A";
+
+
+    const matchNo =
+        document.getElementById("matchNo")
+        .value.trim() || "Match 01";
+
+
+    match = {
+
+        matchNo: matchNo,
+
+        teamName: teamName,
+
+        totalOvers: totalOvers,
+
+        totalRuns: 0,
+
+        wickets: 0,
+
+        legalBalls: 0,
+
+        striker: 0,
+
+        nonStriker: 1,
+
+        currentOver: [],
+
+        history: [],
+
+        ended: false,
+
+        endReason: "",
+
+        players: names.map(
+            (name, index) => ({
+
+                name: name,
+
+                runs: 0,
+
+                balls: 0,
+
+                fours: 0,
+
+                sixes: 0,
+
+                status:
+                    index < 2
+                    ? "Not Out"
+                    : "Yet to Bat"
+
+            })
+        )
+
+    };
+
+
+    undoStack = [];
+
+
+    document
+        .getElementById("setupSection")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("scoreSection")
+        .classList.remove("hidden");
+
+
+    render();
+
+}
+
+
+
+/* =====================================================
+   SAVE STATE FOR UNDO
+===================================================== */
+
+function saveState() {
+
+    undoStack.push(
+        JSON.stringify(match)
+    );
+
+    if (undoStack.length > 100) {
+
+        undoStack.shift();
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CHECK WHETHER SCORING IS ALLOWED
+===================================================== */
+
+function canScore() {
+
+    if (!match) {
+        return false;
+    }
+
+
+    if (match.ended) {
+        return false;
+    }
+
+
+    if (match.wickets >= MAX_WICKETS) {
+        return false;
+    }
+
+
+    if (
+        match.legalBalls >=
+        match.totalOvers * 6
+    ) {
+        return false;
+    }
+
+
+    return true;
+
+}
+
+
+
+/* =====================================================
+   NORMAL RUNS
+===================================================== */
+
+function addRuns(runs) {
+
+    if (!canScore()) {
+        return;
+    }
+
+
+    saveState();
+
+
+    match.totalRuns += runs;
+
+
+    const striker =
+        match.players[match.striker];
+
+
+    striker.runs += runs;
+
+    striker.balls += 1;
+
+
+    if (runs === 4) {
+        striker.fours++;
+    }
+
+
+    if (runs === 6) {
+        striker.sixes++;
+    }
+
+
+    const delivery = {
+
+        label: String(runs),
+
+        runs: runs,
+
+        legal: true,
+
+        type: "normal"
+
+    };
+
+
+    match.currentOver.push(
+        delivery
+    );
+
+
+    match.history.push(
+        deliveryDescription(delivery)
+    );
+
+
+    match.legalBalls++;
+
+
+    /*
+        Strike changes for odd runs.
+    */
+
+    if (
+        runs === 1 ||
+        runs === 3 ||
+        runs === 5
+    ) {
+
+        swapStrike();
+
+    }
+
+
+    completeOverIfNeeded();
+
+    checkMatchEnd();
+
+    render();
+
+}
+
+
+
+/* =====================================================
+   WIDE / NO BALL
+===================================================== */
+
+function openExtra(type) {
+
+    if (!canScore()) {
+        return;
+    }
+
+
+    const modal =
+        document.getElementById("extraModal");
+
+
+    const title =
+        document.getElementById("extraTitle");
+
+
+    title.textContent =
+        type === "wide"
+        ? "Wide"
+        : "No Ball";
+
+
+    const options =
+        document.getElementById("extraOptions");
+
+
+    options.innerHTML = "";
+
+
+    /*
+        1 through 7 total runs.
+
+        Wide:
+        1 = wide only
+        2 = wide + 1
+        3 = wide + 2
+        etc.
+
+        No Ball:
+        1 = no ball only
+        2 = no ball + 1
+        3 = no ball + 2
+        etc.
+    */
+
+    for (let total = 1; total <= 7; total++) {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "btn warning";
+
+
+        button.textContent =
+            "+" + total + " Run" +
+            (total === 1 ? "" : "s");
+
+
+        button.onclick = function () {
+
+            addExtra(
+                type,
+                total
+            );
+
+        };
+
+
+        options.appendChild(button);
+
+    }
+
+
+    modal.classList.remove("hidden");
+
+}
+
+
+
+/* =====================================================
+   CLOSE EXTRA MODAL
+===================================================== */
+
+function closeExtra() {
+
+    document
+        .getElementById("extraModal")
+        .classList.add("hidden");
+
+}
+
+
+
+/* =====================================================
+   ADD WIDE / NO BALL
+===================================================== */
+
+function addExtra(type, totalRuns) {
+
+    if (!canScore()) {
+
+        closeExtra();
+
+        return;
+
+    }
+
+
+    saveState();
+
+
+    match.totalRuns += totalRuns;
+
+
+    const striker =
+        match.players[match.striker];
+
+
+    /*
+        For a no-ball, any runs beyond
+        the automatic one are bat runs.
+
+        For a wide, all selected runs
+        are extras.
+    */
+
+    let batRuns = 0;
+
+
+    if (type === "noball") {
+
+        batRuns =
+            Math.max(
+                0,
+                totalRuns - 1
+            );
+
+
+        striker.runs += batRuns;
+
+
+        /*
+            A no-ball delivery itself
+            is not a legal ball.
+        */
+
+        if (batRuns > 0) {
+
+            striker.balls++;
+
+        }
+
+
+        if (batRuns === 4) {
+
+            striker.fours++;
+
+        }
+
+
+        if (batRuns === 6) {
+
+            striker.sixes++;
+
+        }
+
+    }
+
+
+    const label =
+        type === "wide"
+        ? (
+            totalRuns === 1
+            ? "WD"
+            : "WD+" + (totalRuns - 1)
+        )
+        : (
+            batRuns === 0
+            ? "NB"
+            : "NB+" + batRuns
+        );
+
+
+    const delivery = {
+
+        label: label,
+
+        runs: totalRuns,
+
+        legal: false,
+
+        type: type
+
+    };
+
+
+    match.currentOver.push(
+        delivery
+    );
+
+
+    match.history.push(
+        deliveryDescription(delivery)
+    );
+
+
+    /*
+        Wide and no-ball do NOT
+        increase legal ball count.
+    */
+
+
+    /*
+        If no-ball contains odd bat runs,
+        strike changes.
+    */
+
+    if (
+        type === "noball" &&
+        (
+            batRuns === 1 ||
+            batRuns === 3 ||
+            batRuns === 5
+        )
+    ) {
+
+        swapStrike();
+
+    }
+
+
+    closeExtra();
+
+    checkMatchEnd();
+
+    render();
+
+}
+
+
+
+/* =====================================================
+   WICKET
+===================================================== */
+
+function addWicket() {
+
+    if (!canScore()) {
+        return;
+    }
+
+
+    saveState();
+
+
+    match.wickets++;
+
+
+    const striker =
+        match.players[match.striker];
+
+
+    striker.balls++;
+
+    striker.status = "Out";
+
+
+    const delivery = {
+
+        label: "W",
+
+        runs: 0,
+
+        legal: true,
+
+        type: "wicket"
+
+    };
+
+
+    match.currentOver.push(
+        delivery
+    );
+
+
+    match.history.push(
+        "Wicket — " +
+        striker.name
+    );
+
+
+    match.legalBalls++;
+
+
+    /*
+        If fewer than 10 wickets,
+        bring the next batsman.
+    */
+
+    if (
+        match.wickets <
+        MAX_WICKETS
+    ) {
+
+        const next =
+            match.players.findIndex(
+                player =>
+                    player.status ===
+                    "Yet to Bat"
+            );
+
+
+        if (next !== -1) {
+
+            match.striker = next;
+
+            match.players[next]
+                .status = "Not Out";
+
+        }
+
+    }
+
+
+    completeOverIfNeeded();
+
+    checkMatchEnd();
+
+    render();
+
+}
+
+
+
+/* =====================================================
+   COMPLETE OVER
+===================================================== */
+
+function completeOverIfNeeded() {
+
+    if (
+        match.legalBalls > 0 &&
+        match.legalBalls % 6 === 0
+    ) {
+
+        /*
+            End-of-over strike change.
+        */
+
+        swapStrike();
+
+        /*
+            Current over is cleared.
+            History remains available below.
+        */
+
+        match.currentOver = [];
+
+    }
+
+}
+
+
+
+/* =====================================================
+   STRIKE CHANGE
+===================================================== */
+
+function swapStrike() {
+
+    const temp =
+        match.striker;
+
+    match.striker =
+        match.nonStriker;
+
+    match.nonStriker =
+        temp;
+
+}
+
+
+
+/* =====================================================
+   CHECK MATCH END
+===================================================== */
+
+function checkMatchEnd() {
+
+    if (
+        match.wickets >=
+        MAX_WICKETS
+    ) {
+
+        match.ended = true;
+
+        match.endReason =
+            "10 wickets reached";
+
+        return;
+
+    }
+
+
+    if (
+        match.legalBalls >=
+        match.totalOvers * 6
+    ) {
+
+        match.ended = true;
+
+        match.endReason =
+            match.totalOvers +
+            " overs completed";
+
+        return;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DELIVERY DESCRIPTION
+===================================================== */
+
+function deliveryDescription(delivery) {
+
+    if (
+        delivery.type ===
+        "wide"
+    ) {
+
+        return (
+            "Wide — +" +
+            delivery.runs +
+            " run" +
+            (
+                delivery.runs === 1
+                ? ""
+                : "s"
+            )
+        );
+
+    }
+
+
+    if (
+        delivery.type ===
+        "noball"
+    ) {
+
+        return (
+            "No Ball — +" +
+            delivery.runs +
+            " run" +
+            (
+                delivery.runs === 1
+                ? ""
+                : "s"
+            )
+        );
+
+    }
+
+
+    if (
+        delivery.type ===
+        "wicket"
+    ) {
+
+        return "Wicket";
+
+    }
+
+
+    return (
+        delivery.runs +
+        " run" +
+        (
+            delivery.runs === 1
+            ? ""
+            : "s"
+        )
+    );
+
+}
+
+
+
+/* =====================================================
+   UNDO
+===================================================== */
+
+function undoLast() {
+
+    if (
+        !match ||
+        undoStack.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    match =
+        JSON.parse(
+            undoStack.pop()
+        );
+
+
+    render();
+
+}
+
+
+
+/* =====================================================
+   RESET MATCH
+===================================================== */
+
+function resetMatch() {
+
+    if (!match) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Reset this match to 0?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const names =
+        match.players.map(
+            player =>
+                player.name
+        );
+
+
+    const totalOvers =
+        match.totalOvers;
+
+
+    const teamName =
+        match.teamName;
+
+
+    const matchNo =
+        match.matchNo;
+
+
+    match = {
+
+        matchNo: matchNo,
+
+        teamName: teamName,
+
+        totalOvers: totalOvers,
+
+        totalRuns: 0,
+
+        wickets: 0,
+
+        legalBalls: 0,
+
+        striker: 0,
+
+        nonStriker: 1,
+
+        currentOver: [],
+
+        history: [],
+
+        ended: false,
+
+        endReason: "",
+
+        players: names.map(
+            (name, index) => ({
+
+                name: name,
+
+                runs: 0,
+
+                balls: 0,
+
+                fours: 0,
+
+                sixes: 0,
+
+                status:
+                    index < 2
+                    ? "Not Out"
+                    : "Yet to Bat"
+
+            })
+        )
+
+    };
+
+
+    undoStack = [];
+
+    render();
+
+}
+
+
+
+/* =====================================================
+   NEW MATCH
+===================================================== */
+
+function newMatch() {
+
+    const confirmed =
+        confirm(
+            "Start a completely new match?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    match = null;
+
+    undoStack = [];
+
+
+    document
+        .getElementById("scoreSection")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("setupSection")
+        .classList.remove("hidden");
+
+}
+
+
+
+/* =====================================================
+   RENDER APPLICATION
+===================================================== */
+
+function render() {
+
+    if (!match) {
+        return;
+    }
+
+
+    document
+        .getElementById("teamDisplay")
+        .textContent =
+            match.teamName +
+            " • " +
+            match.matchNo;
+
+
+    document
+        .getElementById("runsDisplay")
+        .textContent =
+            match.totalRuns;
+
+
+    document
+        .getElementById("wicketsDisplay")
+        .textContent =
+            match.wickets;
+
+
+    document
+        .getElementById("completedOvers")
+        .textContent =
+            Math.floor(
+                match.legalBalls / 6
+            );
+
+
+    document
+        .getElementById("currentBall")
+        .textContent =
+            match.legalBalls % 6;
+
+
+    document
+        .getElementById("totalOversDisplay")
+        .textContent =
+            match.totalOvers;
+
+
+    document
+        .getElementById("strikerDisplay")
+        .textContent =
+            match.players[
+                match.striker
+            ]?.name || "—";
+
+
+    document
+        .getElementById("nonStrikerDisplay")
+        .textContent =
+            match.players[
+                match.nonStriker
+            ]?.name || "—";
+
+
+
+    /* MATCH END */
+
+    const endBox =
+        document.getElementById(
+            "matchEnded"
+        );
+
+
+    if (match.ended) {
+
+        endBox.classList.remove(
+            "hidden"
+        );
+
+
+        endBox.textContent =
+            "🏁 MATCH ENDED — " +
+            match.endReason +
+            " | Final Score: " +
+            match.totalRuns +
+            "/" +
+            match.wickets +
+            " in " +
+            Math.floor(
+                match.legalBalls / 6
+            ) +
+            "." +
+            (
+                match.legalBalls % 6
+            ) +
+            " overs";
+
+    } else {
+
+        endBox.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+
+    /* CURRENT OVER */
+
+    const over =
+        document.getElementById(
+            "currentOver"
+        );
+
+
+    over.innerHTML = "";
+
+
+    if (
+        match.currentOver.length === 0
+    ) {
+
+        over.innerHTML =
+            `<span class="note">
+                No legal deliveries in current over.
+            </span>`;
+
+    } else {
+
+        match.currentOver.forEach(
+            delivery => {
+
+                const ball =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                ball.className =
+                    "ball";
+
+
+                if (!delivery.legal) {
+
+                    ball.classList.add(
+                        "extra"
+                    );
+
+                }
+
+
+                if (
+                    delivery.type ===
+                    "wicket"
+                ) {
+
+                    ball.classList.add(
+                        "wicket"
+                    );
+
+                }
+
+
+                ball.textContent =
+                    delivery.label;
+
+
+                over.appendChild(
+                    ball
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* SCORECARD */
+
+    const table =
+        document.getElementById(
+            "scorecard"
+        );
+
+
+    table.innerHTML = "";
+
+
+    match.players.forEach(
+        (player, index) => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(player.name)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${player.runs}
+                </td>
+
+                <td>
+                    ${player.balls}
+                </td>
+
+                <td>
+                    ${player.fours}
+                </td>
+
+                <td>
+                    ${player.sixes}
+                </td>
+
+                <td>
+                    ${player.status}
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+
+    /* HISTORY */
+
+    const history =
+        document.getElementById(
+            "history"
+        );
+
+
+    history.innerHTML = "";
+
+
+    if (
+        match.history.length === 0
+    ) {
+
+        history.innerHTML =
+            `<p class="note">
+                No deliveries yet.
+            </p>`;
+
+    } else {
+
+        match.history
+            .slice()
+            .reverse()
+            .forEach(
+                (item, index) => {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "history-item";
+
+
+                    div.textContent =
+                        (
+                            match.history.length -
+                            index
+                        ) +
+                        ". " +
+                        item;
+
+
+                    history.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+    }
+
+
+
+    /*
+        Disable scoring buttons
+        after innings ends.
+    */
+
+    document
+        .querySelectorAll(
+            ".scoring-grid button"
+        )
+        .forEach(
+            button => {
+
+                button.disabled =
+                    match.ended;
+
+                button.style.opacity =
+                    match.ended
+                    ? "0.5"
+                    : "1";
+
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replace(
+            /[&<>"']/g,
+            character => {
+
+                const map = {
+
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+
+                };
+
+                return map[
+                    character
+                ];
+
+            }
+        );
+
+}
+
+</script>
+
+</body>
+</html>
