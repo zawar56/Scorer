@@ -22,6 +22,7 @@
     --light: #f4f7f8;
     --border: #dce4e8;
     --white: #ffffff;
+    --gold: #d99a00;
 }
 
 body {
@@ -104,6 +105,7 @@ button {
     border: 1px solid #ccd6dc;
     border-radius: 10px;
     outline: none;
+    background: white;
 }
 
 .field input:focus,
@@ -127,7 +129,7 @@ button {
     transition: .15s;
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
     transform: translateY(-1px);
 }
 
@@ -159,6 +161,30 @@ button {
 .setup-button {
     margin-top: 20px;
     text-align: right;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+}
+
+/* TOSS */
+
+.toss-box {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 14px;
+    background: #f8fafb;
+    border: 1px solid var(--border);
+}
+
+.toss-box h3 {
+    margin-top: 0;
+}
+
+.toss-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
 /* SCORE */
@@ -196,6 +222,40 @@ button {
     margin-top: 8px;
 }
 
+/* INNINGS */
+
+.innings-banner {
+    margin-bottom: 18px;
+    padding: 15px 18px;
+    border-radius: 13px;
+    background: var(--light-green);
+    border: 1px solid #bde4d5;
+    color: var(--dark-green);
+    font-weight: bold;
+    text-align: center;
+}
+
+.target-box {
+    margin-top: 15px;
+    padding: 18px;
+    border-radius: 14px;
+    background: #fff8df;
+    border: 2px solid #f0d77a;
+    text-align: center;
+}
+
+.target-number {
+    font-size: 34px;
+    font-weight: 800;
+    color: #8a6500;
+}
+
+.need-number {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
 /* PLAYERS */
 
 .batsmen {
@@ -203,6 +263,34 @@ button {
     grid-template-columns: 1fr 1fr;
     gap: 14px;
     margin-top: 15px;
+}
+
+.batsman-card {
+    position: relative;
+    transition: .2s;
+}
+
+.striker-active {
+    background: var(--light-green) !important;
+    border: 3px solid var(--green) !important;
+    box-shadow: 0 5px 18px rgba(8,127,91,.18);
+}
+
+.striker-active::before {
+    content: "🏏 STRIKER";
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: var(--green);
+    color: white;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.non-striker-card {
+    position: relative;
 }
 
 /* SCORING BUTTONS */
@@ -237,6 +325,12 @@ button {
     color: white;
 }
 
+.switch-btn {
+    background: #dceeff;
+    color: #07528a;
+    border: 2px solid #b8dcf6;
+}
+
 /* OVER */
 
 .over-balls {
@@ -246,8 +340,8 @@ button {
 }
 
 .ball {
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: #edf1f3;
     border: 1px solid #d7dfe3;
@@ -255,6 +349,7 @@ button {
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    position: relative;
 }
 
 .ball.extra {
@@ -265,6 +360,58 @@ button {
 .ball.wicket {
     background: #ffdede;
     color: #a10d0d;
+}
+
+.ball-number {
+    position: absolute;
+    bottom: -17px;
+    font-size: 9px;
+    color: var(--gray);
+    white-space: nowrap;
+}
+
+/* OVER HISTORY */
+
+.over-history {
+    margin-top: 20px;
+}
+
+.over-history-item {
+    margin-bottom: 14px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: #fafcfd;
+}
+
+.over-history-title {
+    font-weight: bold;
+    color: var(--dark-green);
+    margin-bottom: 12px;
+}
+
+.over-history-balls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.history-ball {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #edf1f3;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.history-ball.extra {
+    background: #fff1c7;
+    color: #765400;
+}
+
+.history-ball.wicket {
+    background: #ffe1e1;
+    color: #a20e0e;
 }
 
 /* TABLE */
@@ -293,8 +440,86 @@ th {
 /* HISTORY */
 
 .history-item {
-    padding: 9px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--border);
+}
+
+.history-item strong {
+    color: var(--dark-green);
+}
+
+/* MATCH HISTORY */
+
+.match-history-card {
+    margin-bottom: 18px;
+}
+
+.match-history-header {
+    padding: 17px;
+    border-radius: 13px;
+    background: #f5f8f9;
+    border: 1px solid var(--border);
+}
+
+.match-history-header h3 {
+    margin: 0 0 8px;
+}
+
+.match-history-details {
+    color: var(--gray);
+    line-height: 1.7;
+}
+
+.saved-match {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.saved-match-header {
+    padding: 15px;
+    background: #f7fafb;
+    cursor: pointer;
+}
+
+.saved-match-header:hover {
+    background: #eef7f3;
+}
+
+.saved-match-body {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.saved-over {
+    margin-bottom: 15px;
+}
+
+.saved-over-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--dark-green);
+}
+
+.saved-ball {
+    display: inline-block;
+    margin: 3px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    background: #edf1f3;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.saved-ball.extra {
+    background: #fff1c7;
+    color: #765400;
+}
+
+.saved-ball.wicket {
+    background: #ffe1e1;
+    color: #a20e0e;
 }
 
 /* MATCH END */
@@ -307,6 +532,17 @@ th {
     background: #fff0f0;
     border: 2px solid #efb1b1;
     color: #971818;
+    font-weight: bold;
+}
+
+.innings-ended {
+    margin-top: 18px;
+    padding: 18px;
+    text-align: center;
+    border-radius: 13px;
+    background: #eef8ff;
+    border: 2px solid #b8dcef;
+    color: #07528a;
     font-weight: bold;
 }
 
@@ -360,7 +596,8 @@ th {
     .grid,
     .players,
     .score-grid,
-    .batsmen {
+    .batsmen,
+    .toss-options {
         grid-template-columns: 1fr;
     }
 
@@ -389,15 +626,17 @@ th {
 
 <header class="header">
     <h1>🏏 Cricket Live Scorer</h1>
-    <p>Simple and fast cricket scoring web application</p>
+    <p>Complete two-innings cricket scoring system</p>
 </header>
 
 
-<!-- ================= MATCH SETUP ================= -->
+<!-- =====================================================
+     MATCH SETUP
+===================================================== -->
 
 <section id="setupSection" class="card">
 
-    <h2>Match Setup</h2>
+    <h2>🏏 Match Setup</h2>
 
     <div class="grid">
 
@@ -411,50 +650,126 @@ th {
         </div>
 
         <div class="field">
-            <label>Team Name</label>
+            <label>Number of Overs</label>
             <input
-                type="text"
-                id="teamName"
-                placeholder="Example: Team A"
+                type="number"
+                id="overs"
+                min="1"
+                max="500"
+                step="1"
+                value="10"
+                placeholder="Example: 15"
             >
         </div>
 
         <div class="field">
-            <label>Number of Overs</label>
-
-            <select id="overs">
-                <option value="1">1 Over</option>
-                <option value="2">2 Overs</option>
-                <option value="5">5 Overs</option>
-                <option value="10" selected>10 Overs</option>
-                <option value="20">20 Overs</option>
-                <option value="50">50 Overs</option>
-            </select>
+            <label>Team A</label>
+            <input
+                type="text"
+                id="teamA"
+                placeholder="Example: Pakistan"
+            >
         </div>
 
         <div class="field">
-            <label>Number of Players</label>
+            <label>Team B</label>
+            <input
+                type="text"
+                id="teamB"
+                placeholder="Example: India"
+            >
+        </div>
 
-            <select id="playerCount">
-            </select>
+        <div class="field">
+            <label>Number of Players — Team A</label>
+            <select id="playerCountA"></select>
+        </div>
+
+        <div class="field">
+            <label>Number of Players — Team B</label>
+            <select id="playerCountB"></select>
         </div>
 
     </div>
 
 
+    <!-- TOSS -->
+
+    <div class="toss-box">
+
+        <h3>🪙 Toss</h3>
+
+        <div class="toss-options">
+
+            <div class="field">
+
+                <label>Who won the toss?</label>
+
+                <select id="tossWinner">
+
+                    <option value="A">
+                        Team A
+                    </option>
+
+                    <option value="B">
+                        Team B
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>What did they choose?</label>
+
+                <select id="tossDecision">
+
+                    <option value="bat">
+                        Bat First
+                    </option>
+
+                    <option value="bowl">
+                        Bowl First
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TEAM A PLAYERS -->
+
     <h3 style="margin-top:25px;">
-        Player Names
+        Team A Player Names
     </h3>
 
     <div
-        id="playerInputs"
+        id="playerInputsA"
+        class="players">
+    </div>
+
+
+    <!-- TEAM B PLAYERS -->
+
+    <h3 style="margin-top:25px;">
+        Team B Player Names
+    </h3>
+
+    <div
+        id="playerInputsB"
         class="players">
     </div>
 
 
     <p class="note">
-        Maximum wickets are 10. The innings ends automatically
-        after 10 wickets or when the selected number of overs is completed.
+        Enter any number of overs, for example 3, 7, 12, 15, 25,
+        40 or 50. Maximum wickets are 10.
     </p>
 
 
@@ -471,14 +786,21 @@ th {
 </section>
 
 
-
-<!-- ================= LIVE SCORE ================= -->
+<!-- =====================================================
+     LIVE SCORE
+===================================================== -->
 
 <section
     id="scoreSection"
     class="hidden">
 
 <div class="card">
+
+    <div
+        id="inningsBanner"
+        class="innings-banner">
+    </div>
+
 
     <div class="score-grid">
 
@@ -528,7 +850,7 @@ th {
             </div>
 
             <div class="label">
-                Completed Overs / Ball
+                Over / Legal Ball
             </div>
 
         </div>
@@ -555,6 +877,39 @@ th {
     </div>
 
 
+    <!-- TARGET -->
+
+    <div
+        id="targetBox"
+        class="target-box hidden">
+
+        <div class="label">
+            Target
+        </div>
+
+        <div
+            id="targetDisplay"
+            class="target-number">
+            0
+        </div>
+
+        <div
+            id="needDisplay"
+            class="need-number">
+            Need 0 runs
+        </div>
+
+    </div>
+
+
+    <!-- INNINGS END -->
+
+    <div
+        id="inningsEnded"
+        class="innings-ended hidden">
+    </div>
+
+
     <!-- MATCH END -->
 
     <div
@@ -567,7 +922,9 @@ th {
 
     <div class="batsmen">
 
-        <div class="score-box">
+        <div
+            id="strikerCard"
+            class="score-box batsman-card striker-active">
 
             <div class="label">
                 Striker
@@ -582,7 +939,9 @@ th {
         </div>
 
 
-        <div class="score-box">
+        <div
+            id="nonStrikerCard"
+            class="score-box batsman-card non-striker-card">
 
             <div class="label">
                 Non-Striker
@@ -645,13 +1004,11 @@ th {
             6
         </button>
 
-
         <button
             class="btn run-btn extra-btn"
             onclick="openExtra('wide')">
             WIDE
         </button>
-
 
         <button
             class="btn run-btn extra-btn"
@@ -659,13 +1016,17 @@ th {
             NO BALL
         </button>
 
-
         <button
             class="btn run-btn wicket-btn"
             onclick="addWicket()">
             WICKET
         </button>
 
+        <button
+            class="btn run-btn switch-btn"
+            onclick="manualSwitchStrike()">
+            🔄 SWITCH STRIKER
+        </button>
 
         <button
             class="btn run-btn undo-btn"
@@ -692,12 +1053,34 @@ th {
     </div>
 
 
+    <!-- OVER HISTORY -->
+
+    <div
+        id="overHistorySection"
+        class="over-history">
+
+        <h3>
+            📋 Over-by-Over History
+        </h3>
+
+        <div id="overHistory"></div>
+
+    </div>
+
+
     <div class="actions">
 
         <button
             class="btn secondary"
-            onclick="resetMatch()">
-            Reset Match
+            onclick="resetCurrentInnings()">
+            Reset Innings
+        </button>
+
+        <button
+            id="startSecondButton"
+            class="btn primary hidden"
+            onclick="startSecondInnings()">
+            🏏 Start 2nd Innings
         </button>
 
         <button
@@ -711,13 +1094,14 @@ th {
 </div>
 
 
-
-<!-- ================= SCORECARD ================= -->
+<!-- =====================================================
+     SCORECARD
+===================================================== -->
 
 <div class="card">
 
     <h2>
-        Player Scorecard
+        📊 Player Scorecard
     </h2>
 
     <div class="table-wrapper">
@@ -751,17 +1135,35 @@ th {
 </div>
 
 
-
-<!-- ================= BALL HISTORY ================= -->
+<!-- =====================================================
+     BALL HISTORY
+===================================================== -->
 
 <div class="card">
 
     <h2>
-        Ball-by-Ball History
+        📝 Ball-by-Ball History
     </h2>
 
     <div
         id="history">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PREVIOUS MATCHES
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🏆 Previous Matches
+    </h2>
+
+    <div
+        id="previousMatches">
     </div>
 
 </div>
@@ -771,8 +1173,9 @@ th {
 </div>
 
 
-
-<!-- ================= EXTRA MODAL ================= -->
+<!-- =====================================================
+     EXTRA MODAL
+===================================================== -->
 
 <div
     id="extraModal"
@@ -809,11 +1212,10 @@ th {
 </div>
 
 
-
 <script>
 
 /* =====================================================
-   GLOBAL MATCH STATE
+   GLOBAL STATE
 ===================================================== */
 
 let match = null;
@@ -822,34 +1224,60 @@ let undoStack = [];
 
 const MAX_WICKETS = 10;
 
+const STORAGE_KEY = "cricketScorerMatchHistory";
 
 
 /* =====================================================
-   PLAYER COUNT SETUP
+   PLAYER COUNT
 ===================================================== */
 
-const playerCount =
-    document.getElementById("playerCount");
+const playerCountA =
+    document.getElementById("playerCountA");
+
+const playerCountB =
+    document.getElementById("playerCountB");
+
 
 for (let i = 2; i <= 15; i++) {
 
-    const option =
+    const optionA =
         document.createElement("option");
 
-    option.value = i;
+    optionA.value = i;
 
-    option.textContent =
+    optionA.textContent =
         i + " Players";
 
     if (i === 11) {
-        option.selected = true;
+        optionA.selected = true;
     }
 
-    playerCount.appendChild(option);
+    playerCountA.appendChild(optionA);
+
+
+    const optionB =
+        document.createElement("option");
+
+    optionB.value = i;
+
+    optionB.textContent =
+        i + " Players";
+
+    if (i === 11) {
+        optionB.selected = true;
+    }
+
+    playerCountB.appendChild(optionB);
+
 }
 
 
-playerCount.addEventListener(
+playerCountA.addEventListener(
+    "change",
+    createPlayerInputs
+);
+
+playerCountB.addEventListener(
     "change",
     createPlayerInputs
 );
@@ -858,20 +1286,34 @@ playerCount.addEventListener(
 createPlayerInputs();
 
 
-
 /* =====================================================
    CREATE PLAYER INPUTS
 ===================================================== */
 
 function createPlayerInputs() {
 
-    const number =
-        Number(playerCount.value);
+    createTeamPlayerInputs(
+        "A",
+        Number(playerCountA.value)
+    );
+
+    createTeamPlayerInputs(
+        "B",
+        Number(playerCountB.value)
+    );
+
+}
+
+
+function createTeamPlayerInputs(team, number) {
 
     const container =
-        document.getElementById("playerInputs");
+        document.getElementById(
+            "playerInputs" + team
+        );
 
     container.innerHTML = "";
+
 
     for (let i = 0; i < number; i++) {
 
@@ -884,16 +1326,17 @@ function createPlayerInputs() {
                 </label>
 
                 <input
-                    class="player-name"
+                    class="player-name-${team}"
                     placeholder="Player ${i + 1}"
                 >
 
             </div>
 
         `;
-    }
-}
 
+    }
+
+}
 
 
 /* =====================================================
@@ -902,24 +1345,34 @@ function createPlayerInputs() {
 
 function startMatch() {
 
-    const names =
-        [...document.querySelectorAll(".player-name")]
-        .map(
-            (input, index) =>
-                input.value.trim() ||
-                `Player ${index + 1}`
-        );
-
-
     const totalOvers =
         Number(
             document.getElementById("overs").value
         );
 
 
-    const teamName =
-        document.getElementById("teamName")
+    if (
+        !Number.isFinite(totalOvers) ||
+        totalOvers <= 0
+    ) {
+
+        alert(
+            "Please enter a valid number of overs."
+        );
+
+        return;
+
+    }
+
+
+    const teamAName =
+        document.getElementById("teamA")
         .value.trim() || "Team A";
+
+
+    const teamBName =
+        document.getElementById("teamB")
+        .value.trim() || "Team B";
 
 
     const matchNo =
@@ -927,13 +1380,133 @@ function startMatch() {
         .value.trim() || "Match 01";
 
 
+    const tossWinner =
+        document.getElementById("tossWinner").value;
+
+
+    const tossDecision =
+        document.getElementById("tossDecision").value;
+
+
+    const namesA =
+        [
+            ...document.querySelectorAll(
+                ".player-name-A"
+            )
+        ].map(
+            (input, index) =>
+                input.value.trim() ||
+                `Player ${index + 1}`
+        );
+
+
+    const namesB =
+        [
+            ...document.querySelectorAll(
+                ".player-name-B"
+            )
+        ].map(
+            (input, index) =>
+                input.value.trim() ||
+                `Player ${index + 1}`
+        );
+
+
+    /*
+        Determine batting first.
+    */
+
+    let firstBattingTeam;
+
+
+    if (tossDecision === "bat") {
+
+        firstBattingTeam =
+            tossWinner;
+
+    } else {
+
+        firstBattingTeam =
+            tossWinner === "A"
+            ? "B"
+            : "A";
+
+    }
+
+
+    const secondBattingTeam =
+        firstBattingTeam === "A"
+        ? "B"
+        : "A";
+
+
     match = {
 
         matchNo: matchNo,
 
-        teamName: teamName,
+        teamA: teamAName,
+
+        teamB: teamBName,
 
         totalOvers: totalOvers,
+
+        tossWinner: tossWinner,
+
+        tossDecision: tossDecision,
+
+        firstBattingTeam: firstBattingTeam,
+
+        secondBattingTeam: secondBattingTeam,
+
+        currentInnings: 1,
+
+        innings: {
+
+            1: createInnings(
+                firstBattingTeam,
+                firstBattingTeam === "A"
+                ? namesA
+                : namesB
+            ),
+
+            2: null
+
+        },
+
+        matchEnded: false,
+
+        finalResult: ""
+
+    };
+
+
+    undoStack = [];
+
+
+    document
+        .getElementById("setupSection")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("scoreSection")
+        .classList.remove("hidden");
+
+
+    render();
+
+}
+
+
+/* =====================================================
+   CREATE INNINGS
+===================================================== */
+
+function createInnings(team, names) {
+
+    return {
+
+        team: team,
 
         totalRuns: 0,
 
@@ -948,6 +1521,8 @@ function startMatch() {
         currentOver: [],
 
         history: [],
+
+        oversHistory: [],
 
         ended: false,
 
@@ -976,24 +1551,46 @@ function startMatch() {
 
     };
 
-
-    undoStack = [];
-
-
-    document
-        .getElementById("setupSection")
-        .classList.add("hidden");
+}
 
 
-    document
-        .getElementById("scoreSection")
-        .classList.remove("hidden");
+/* =====================================================
+   CURRENT INNINGS
+===================================================== */
 
+function getInnings() {
 
-    render();
+    return match.innings[
+        match.currentInnings
+    ];
 
 }
 
+
+/* =====================================================
+   GET TEAM NAME
+===================================================== */
+
+function getTeamName(team) {
+
+    return team === "A"
+        ? match.teamA
+        : match.teamB;
+
+}
+
+
+/* =====================================================
+   GET CURRENT TEAM NAME
+===================================================== */
+
+function getCurrentTeamName() {
+
+    return getTeamName(
+        getInnings().team
+    );
+
+}
 
 
 /* =====================================================
@@ -1006,6 +1603,7 @@ function saveState() {
         JSON.stringify(match)
     );
 
+
     if (undoStack.length > 100) {
 
         undoStack.shift();
@@ -1015,9 +1613,8 @@ function saveState() {
 }
 
 
-
 /* =====================================================
-   CHECK WHETHER SCORING IS ALLOWED
+   CHECK SCORING
 ===================================================== */
 
 function canScore() {
@@ -1027,21 +1624,42 @@ function canScore() {
     }
 
 
-    if (match.ended) {
+    if (match.matchEnded) {
         return false;
     }
 
 
-    if (match.wickets >= MAX_WICKETS) {
+    const innings =
+        getInnings();
+
+
+    if (!innings) {
+        return false;
+    }
+
+
+    if (innings.ended) {
         return false;
     }
 
 
     if (
-        match.legalBalls >=
-        match.totalOvers * 6
+        innings.wickets >=
+        MAX_WICKETS
     ) {
+
         return false;
+
+    }
+
+
+    if (
+        innings.legalBalls >=
+        innings.totalOvers * 6
+    ) {
+
+        return false;
+
     }
 
 
@@ -1049,6 +1667,34 @@ function canScore() {
 
 }
 
+
+/* =====================================================
+   CURRENT BALL LABEL
+===================================================== */
+
+function getCurrentBallLabel() {
+
+    const innings =
+        getInnings();
+
+
+    const overNumber =
+        Math.floor(
+            innings.legalBalls / 6
+        ) + 1;
+
+
+    const ballNumber =
+        (
+            innings.legalBalls % 6
+        ) + 1;
+
+
+    return overNumber +
+        "." +
+        ballNumber;
+
+}
 
 
 /* =====================================================
@@ -1065,11 +1711,21 @@ function addRuns(runs) {
     saveState();
 
 
-    match.totalRuns += runs;
+    const innings =
+        getInnings();
+
+
+    const ballLabel =
+        getCurrentBallLabel();
+
+
+    innings.totalRuns += runs;
 
 
     const striker =
-        match.players[match.striker];
+        innings.players[
+            innings.striker
+        ];
 
 
     striker.runs += runs;
@@ -1089,32 +1745,37 @@ function addRuns(runs) {
 
     const delivery = {
 
+        ball: ballLabel,
+
         label: String(runs),
 
         runs: runs,
 
         legal: true,
 
-        type: "normal"
+        type: "normal",
+
+        striker:
+            striker.name
 
     };
 
 
-    match.currentOver.push(
+    innings.currentOver.push(
         delivery
     );
 
 
-    match.history.push(
-        deliveryDescription(delivery)
+    innings.history.push(
+        delivery
     );
 
 
-    match.legalBalls++;
+    innings.legalBalls++;
 
 
     /*
-        Strike changes for odd runs.
+        Odd runs change strike.
     */
 
     if (
@@ -1128,18 +1789,37 @@ function addRuns(runs) {
     }
 
 
+    /*
+        If chasing team reaches target,
+        the match ends immediately.
+    */
+
+    if (
+        match.currentInnings === 2 &&
+        innings.totalRuns >=
+        getInnings().target
+    ) {
+
+        finishMatchByChase();
+
+        render();
+
+        return;
+
+    }
+
+
     completeOverIfNeeded();
 
-    checkMatchEnd();
+    checkInningsEnd();
 
     render();
 
 }
 
 
-
 /* =====================================================
-   WIDE / NO BALL
+   WIDE / NO BALL MODAL
 ===================================================== */
 
 function openExtra(type) {
@@ -1150,11 +1830,15 @@ function openExtra(type) {
 
 
     const modal =
-        document.getElementById("extraModal");
+        document.getElementById(
+            "extraModal"
+        );
 
 
     const title =
-        document.getElementById("extraTitle");
+        document.getElementById(
+            "extraTitle"
+        );
 
 
     title.textContent =
@@ -1164,32 +1848,24 @@ function openExtra(type) {
 
 
     const options =
-        document.getElementById("extraOptions");
+        document.getElementById(
+            "extraOptions"
+        );
 
 
     options.innerHTML = "";
 
 
-    /*
-        1 through 7 total runs.
-
-        Wide:
-        1 = wide only
-        2 = wide + 1
-        3 = wide + 2
-        etc.
-
-        No Ball:
-        1 = no ball only
-        2 = no ball + 1
-        3 = no ball + 2
-        etc.
-    */
-
-    for (let total = 1; total <= 7; total++) {
+    for (
+        let total = 1;
+        total <= 7;
+        total++
+    ) {
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         button.className =
@@ -1197,50 +1873,66 @@ function openExtra(type) {
 
 
         button.textContent =
-            "+" + total + " Run" +
-            (total === 1 ? "" : "s");
-
-
-        button.onclick = function () {
-
-            addExtra(
-                type,
-                total
+            "+" +
+            total +
+            " Run" +
+            (
+                total === 1
+                ? ""
+                : "s"
             );
 
-        };
+
+        button.onclick =
+            function() {
+
+                addExtra(
+                    type,
+                    total
+                );
+
+            };
 
 
-        options.appendChild(button);
+        options.appendChild(
+            button
+        );
 
     }
 
 
-    modal.classList.remove("hidden");
+    modal.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-
 /* =====================================================
-   CLOSE EXTRA MODAL
+   CLOSE EXTRA
 ===================================================== */
 
 function closeExtra() {
 
     document
-        .getElementById("extraModal")
-        .classList.add("hidden");
+        .getElementById(
+            "extraModal"
+        )
+        .classList.add(
+            "hidden"
+        );
 
 }
 
 
-
 /* =====================================================
-   ADD WIDE / NO BALL
+   ADD EXTRA
 ===================================================== */
 
-function addExtra(type, totalRuns) {
+function addExtra(
+    type,
+    totalRuns
+) {
 
     if (!canScore()) {
 
@@ -1254,20 +1946,22 @@ function addExtra(type, totalRuns) {
     saveState();
 
 
-    match.totalRuns += totalRuns;
+    const innings =
+        getInnings();
+
+
+    const ballLabel =
+        getCurrentBallLabel();
+
+
+    innings.totalRuns += totalRuns;
 
 
     const striker =
-        match.players[match.striker];
+        innings.players[
+            innings.striker
+        ];
 
-
-    /*
-        For a no-ball, any runs beyond
-        the automatic one are bat runs.
-
-        For a wide, all selected runs
-        are extras.
-    */
 
     let batRuns = 0;
 
@@ -1281,12 +1975,14 @@ function addExtra(type, totalRuns) {
             );
 
 
-        striker.runs += batRuns;
+        striker.runs +=
+            batRuns;
 
 
         /*
-            A no-ball delivery itself
-            is not a legal ball.
+            No-ball with bat runs
+            counts as a ball faced
+            for the batsman.
         */
 
         if (batRuns > 0) {
@@ -1317,16 +2013,20 @@ function addExtra(type, totalRuns) {
         ? (
             totalRuns === 1
             ? "WD"
-            : "WD+" + (totalRuns - 1)
+            : "WD+" +
+                (totalRuns - 1)
         )
         : (
             batRuns === 0
             ? "NB"
-            : "NB+" + batRuns
+            : "NB+" +
+                batRuns
         );
 
 
     const delivery = {
+
+        ball: ballLabel,
 
         label: label,
 
@@ -1334,30 +2034,27 @@ function addExtra(type, totalRuns) {
 
         legal: false,
 
-        type: type
+        type: type,
+
+        striker:
+            striker.name
 
     };
 
 
-    match.currentOver.push(
+    innings.currentOver.push(
         delivery
     );
 
 
-    match.history.push(
-        deliveryDescription(delivery)
+    innings.history.push(
+        delivery
     );
 
 
     /*
-        Wide and no-ball do NOT
-        increase legal ball count.
-    */
-
-
-    /*
-        If no-ball contains odd bat runs,
-        strike changes.
+        No-ball odd bat runs
+        change strike.
     */
 
     if (
@@ -1376,12 +2073,30 @@ function addExtra(type, totalRuns) {
 
     closeExtra();
 
-    checkMatchEnd();
+
+    /*
+        Target can be reached from
+        an extra delivery too.
+    */
+
+    if (
+        match.currentInnings === 2 &&
+        innings.totalRuns >=
+        innings.target
+    ) {
+
+        finishMatchByChase();
+
+        render();
+
+        return;
+
+    }
+
 
     render();
 
 }
-
 
 
 /* =====================================================
@@ -1398,11 +2113,21 @@ function addWicket() {
     saveState();
 
 
-    match.wickets++;
+    const innings =
+        getInnings();
+
+
+    const ballLabel =
+        getCurrentBallLabel();
 
 
     const striker =
-        match.players[match.striker];
+        innings.players[
+            innings.striker
+        ];
+
+
+    innings.wickets++;
 
 
     striker.balls++;
@@ -1412,43 +2137,46 @@ function addWicket() {
 
     const delivery = {
 
+        ball: ballLabel,
+
         label: "W",
 
         runs: 0,
 
         legal: true,
 
-        type: "wicket"
+        type: "wicket",
+
+        striker:
+            striker.name
 
     };
 
 
-    match.currentOver.push(
+    innings.currentOver.push(
         delivery
     );
 
 
-    match.history.push(
-        "Wicket — " +
-        striker.name
+    innings.history.push(
+        delivery
     );
 
 
-    match.legalBalls++;
+    innings.legalBalls++;
 
 
     /*
-        If fewer than 10 wickets,
-        bring the next batsman.
+        Bring next batsman.
     */
 
     if (
-        match.wickets <
+        innings.wickets <
         MAX_WICKETS
     ) {
 
         const next =
-            match.players.findIndex(
+            innings.players.findIndex(
                 player =>
                     player.status ===
                     "Yet to Bat"
@@ -1457,10 +2185,12 @@ function addWicket() {
 
         if (next !== -1) {
 
-            match.striker = next;
+            innings.striker =
+                next;
 
-            match.players[next]
-                .status = "Not Out";
+            innings.players[next]
+                .status =
+                "Not Out";
 
         }
 
@@ -1469,12 +2199,11 @@ function addWicket() {
 
     completeOverIfNeeded();
 
-    checkMatchEnd();
+    checkInningsEnd();
 
     render();
 
 }
-
 
 
 /* =====================================================
@@ -1483,10 +2212,44 @@ function addWicket() {
 
 function completeOverIfNeeded() {
 
+    const innings =
+        getInnings();
+
+
     if (
-        match.legalBalls > 0 &&
-        match.legalBalls % 6 === 0
+        innings.legalBalls > 0 &&
+        innings.legalBalls % 6 === 0
     ) {
+
+        /*
+            Save completed over
+            before clearing it.
+        */
+
+        if (
+            innings.currentOver.length > 0
+        ) {
+
+            const overNumber =
+                innings.legalBalls / 6;
+
+
+            innings.oversHistory.push({
+
+                over:
+                    overNumber,
+
+                deliveries:
+                    JSON.parse(
+                        JSON.stringify(
+                            innings.currentOver
+                        )
+                    )
+
+            });
+
+        }
+
 
         /*
             End-of-over strike change.
@@ -1494,17 +2257,32 @@ function completeOverIfNeeded() {
 
         swapStrike();
 
-        /*
-            Current over is cleared.
-            History remains available below.
-        */
 
-        match.currentOver = [];
+        innings.currentOver = [];
 
     }
 
 }
 
+
+/* =====================================================
+   MANUAL STRIKER SWITCH
+===================================================== */
+
+function manualSwitchStrike() {
+
+    if (!canScore()) {
+        return;
+    }
+
+
+    saveState();
+
+    swapStrike();
+
+    render();
+
+}
 
 
 /* =====================================================
@@ -1513,34 +2291,45 @@ function completeOverIfNeeded() {
 
 function swapStrike() {
 
+    const innings =
+        getInnings();
+
+
     const temp =
-        match.striker;
+        innings.striker;
 
-    match.striker =
-        match.nonStriker;
 
-    match.nonStriker =
+    innings.striker =
+        innings.nonStriker;
+
+
+    innings.nonStriker =
         temp;
 
 }
 
 
-
 /* =====================================================
-   CHECK MATCH END
+   CHECK INNINGS END
 ===================================================== */
 
-function checkMatchEnd() {
+function checkInningsEnd() {
+
+    const innings =
+        getInnings();
+
 
     if (
-        match.wickets >=
+        innings.wickets >=
         MAX_WICKETS
     ) {
 
-        match.ended = true;
+        innings.ended = true;
 
-        match.endReason =
+        innings.endReason =
             "10 wickets reached";
+
+        handleInningsEnd();
 
         return;
 
@@ -1548,29 +2337,1894 @@ function checkMatchEnd() {
 
 
     if (
-        match.legalBalls >=
-        match.totalOvers * 6
+        innings.legalBalls >=
+        innings.totalOvers * 6
     ) {
 
-        match.ended = true;
+        innings.ended = true;
 
-        match.endReason =
-            match.totalOvers +
+        innings.endReason =
+            innings.totalOvers +
             " overs completed";
 
+        handleInningsEnd();
+
         return;
+
+    }
+
+
+    /*
+        If there are no batsmen left,
+        innings also ends.
+    */
+
+    const remaining =
+        innings.players.some(
+            player =>
+                player.status ===
+                "Yet to Bat"
+        );
+
+
+    if (
+        innings.wickets >=
+        innings.players.length - 1
+    ) {
+
+        innings.ended = true;
+
+        innings.endReason =
+            "All available wickets lost";
+
+        handleInningsEnd();
 
     }
 
 }
 
+
+/* =====================================================
+   HANDLE INNINGS END
+===================================================== */
+
+function handleInningsEnd() {
+
+    const innings =
+        getInnings();
+
+
+    if (
+        match.currentInnings === 1
+    ) {
+
+        /*
+            Set target for second innings.
+        */
+
+        match.innings[2] =
+            createInnings(
+                match.secondBattingTeam,
+                getPlayersForTeam(
+                    match.secondBattingTeam
+                )
+            );
+
+
+        match.innings[2].target =
+            innings.totalRuns + 1;
+
+
+        document
+            .getElementById(
+                "startSecondButton"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+    } else {
+
+        finishMatchAfterOvers();
+
+    }
+
+}
+
+
+/* =====================================================
+   GET PLAYERS FOR SECOND INNINGS
+===================================================== */
+
+function getPlayersForTeam(team) {
+
+    /*
+        We need to retrieve the names
+        that were stored in setup data.
+    */
+
+    if (team === "A") {
+
+        return match.teamAPlayers;
+
+    }
+
+    return match.teamBPlayers;
+
+}
+
+
+/* =====================================================
+   START SECOND INNINGS
+===================================================== */
+
+function startSecondInnings() {
+
+    if (
+        !match ||
+        match.currentInnings !== 1 ||
+        !match.innings[1].ended
+    ) {
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Start the 2nd innings?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    /*
+        The second innings object was
+        created at first innings end.
+    */
+
+    match.currentInnings = 2;
+
+
+    match.innings[2].striker = 0;
+
+    match.innings[2].nonStriker = 1;
+
+
+    document
+        .getElementById(
+            "startSecondButton"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    undoStack = [];
+
+
+    render();
+
+}
+
+
+/* =====================================================
+   FINISH MATCH — CHASE
+===================================================== */
+
+function finishMatchByChase() {
+
+    const innings =
+        getInnings();
+
+
+    innings.ended = true;
+
+    match.matchEnded = true;
+
+
+    const winningTeam =
+        getCurrentTeamName();
+
+
+    const runsNeeded =
+        innings.target;
+
+
+    match.finalResult =
+        winningTeam +
+        " won by " +
+        (
+            innings.players.length -
+            innings.wickets
+        ) +
+        " wickets";
+
+
+    innings.endReason =
+        "Target of " +
+        runsNeeded +
+        " reached";
+
+
+    saveMatchToHistory();
+
+}
+
+
+/* =====================================================
+   FINISH MATCH — SECOND INNINGS COMPLETE
+===================================================== */
+
+function finishMatchAfterOvers() {
+
+    const first =
+        match.innings[1];
+
+
+    const second =
+        match.innings[2];
+
+
+    match.matchEnded = true;
+
+
+    if (
+        second.totalRuns >
+        first.totalRuns
+    ) {
+
+        match.finalResult =
+            getTeamName(
+                second.team
+            ) +
+            " won by " +
+            (
+                second.totalRuns -
+                first.totalRuns
+            ) +
+            " runs";
+
+    } else if (
+        second.totalRuns ===
+        first.totalRuns
+    ) {
+
+        match.finalResult =
+            "Match Tied";
+
+    } else {
+
+        match.finalResult =
+            getTeamName(
+                first.team
+            ) +
+            " won by " +
+            (
+                first.totalRuns -
+                second.totalRuns
+            ) +
+            " runs";
+
+    }
+
+
+    saveMatchToHistory();
+
+}
+
+
+/* =====================================================
+   SAVE MATCH HISTORY
+===================================================== */
+
+function saveMatchToHistory() {
+
+    if (
+        !match ||
+        match.saved
+    ) {
+
+        return;
+
+    }
+
+
+    match.saved = true;
+
+    match.completedAt =
+        new Date().toLocaleString();
+
+
+    /*
+        Store a complete copy.
+    */
+
+    const history =
+        getSavedMatches();
+
+
+    history.unshift(
+        JSON.parse(
+            JSON.stringify(match)
+        )
+    );
+
+
+    /*
+        Keep last 100 matches.
+    */
+
+    if (history.length > 100) {
+
+        history.splice(
+            100
+        );
+
+    }
+
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(history)
+    );
+
+
+    renderPreviousMatches();
+
+}
+
+
+/* =====================================================
+   GET SAVED MATCHES
+===================================================== */
+
+function getSavedMatches() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                STORAGE_KEY
+            )
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   UNDO
+===================================================== */
+
+function undoLast() {
+
+    if (
+        !match ||
+        undoStack.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+        Do not allow undoing a completely
+        finished saved match.
+    */
+
+    if (match.matchEnded) {
+
+        alert(
+            "This match has already been completed."
+        );
+
+        return;
+
+    }
+
+
+    match =
+        JSON.parse(
+            undoStack.pop()
+        );
+
+
+    render();
+
+}
+
+
+/* =====================================================
+   RESET CURRENT INNINGS
+===================================================== */
+
+function resetCurrentInnings() {
+
+    if (!match) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Reset the current innings? All current innings scoring will be lost."
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const innings =
+        getInnings();
+
+
+    const team =
+        innings.team;
+
+
+    const names =
+        innings.players.map(
+            player =>
+                player.name
+        );
+
+
+    const fresh =
+        createInnings(
+            team,
+            names
+        );
+
+
+    if (
+        match.currentInnings === 2
+    ) {
+
+        fresh.target =
+            match.innings[1].totalRuns + 1;
+
+    }
+
+
+    match.innings[
+        match.currentInnings
+    ] = fresh;
+
+
+    undoStack = [];
+
+
+    render();
+
+}
+
+
+/* =====================================================
+   NEW MATCH
+===================================================== */
+
+function newMatch() {
+
+    const confirmed =
+        confirm(
+            "Start a completely new match?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    match = null;
+
+    undoStack = [];
+
+
+    document
+        .getElementById(
+            "scoreSection"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "setupSection"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    renderPreviousMatches();
+
+}
+
+
+/* =====================================================
+   RENDER APPLICATION
+===================================================== */
+
+function render() {
+
+    if (!match) {
+        return;
+    }
+
+
+    const innings =
+        getInnings();
+
+
+    const teamName =
+        getCurrentTeamName();
+
+
+    /*
+        Store player names for future
+        second innings creation.
+    */
+
+    if (!match.teamAPlayers) {
+
+        match.teamAPlayers =
+            match.innings[1].team === "A"
+            ? match.innings[1].players.map(
+                p => p.name
+            )
+            : match.innings[2]?.team === "A"
+                ? match.innings[2].players.map(
+                    p => p.name
+                )
+                : [];
+
+    }
+
+
+    if (!match.teamBPlayers) {
+
+        match.teamBPlayers =
+            match.innings[1].team === "B"
+            ? match.innings[1].players.map(
+                p => p.name
+            )
+            : match.innings[2]?.team === "B"
+                ? match.innings[2].players.map(
+                    p => p.name
+                )
+                : [];
+
+    }
+
+
+    /*
+        Header information.
+    */
+
+    document
+        .getElementById(
+            "inningsBanner"
+        )
+        .textContent =
+            "Innings " +
+            match.currentInnings +
+            " — " +
+            teamName +
+            " Batting";
+
+
+    document
+        .getElementById(
+            "teamDisplay"
+        )
+        .textContent =
+            teamName +
+            " • " +
+            match.matchNo;
+
+
+    document
+        .getElementById(
+            "runsDisplay"
+        )
+        .textContent =
+            innings.totalRuns;
+
+
+    document
+        .getElementById(
+            "wicketsDisplay"
+        )
+        .textContent =
+            innings.wickets;
+
+
+    document
+        .getElementById(
+            "completedOvers"
+        )
+        .textContent =
+            Math.floor(
+                innings.legalBalls / 6
+            );
+
+
+    document
+        .getElementById(
+            "currentBall"
+        )
+        .textContent =
+            innings.legalBalls % 6;
+
+
+    document
+        .getElementById(
+            "totalOversDisplay"
+        )
+        .textContent =
+            match.totalOvers;
+
+
+    /*
+        Strikers.
+    */
+
+    const striker =
+        innings.players[
+            innings.striker
+        ];
+
+
+    const nonStriker =
+        innings.players[
+            innings.nonStriker
+        ];
+
+
+    document
+        .getElementById(
+            "strikerDisplay"
+        )
+        .textContent =
+            striker?.name || "—";
+
+
+    document
+        .getElementById(
+            "nonStrikerDisplay"
+        )
+        .textContent =
+            nonStriker?.name || "—";
+
+
+    /*
+        Green striker highlight.
+    */
+
+    document
+        .getElementById(
+            "strikerCard"
+        )
+        .classList.add(
+            "striker-active"
+        );
+
+
+    document
+        .getElementById(
+            "nonStrikerCard"
+        )
+        .classList.remove(
+            "striker-active"
+        );
+
+
+    /*
+        Target.
+    */
+
+    const targetBox =
+        document.getElementById(
+            "targetBox"
+        );
+
+
+    if (
+        match.currentInnings === 2
+    ) {
+
+        targetBox.classList.remove(
+            "hidden"
+        );
+
+
+        const target =
+            innings.target;
+
+
+        const need =
+            Math.max(
+                0,
+                target -
+                innings.totalRuns
+            );
+
+
+        document
+            .getElementById(
+                "targetDisplay"
+            )
+            .textContent =
+                target;
+
+
+        if (need === 0) {
+
+            document
+                .getElementById(
+                    "needDisplay"
+                )
+                .textContent =
+                    "Target reached";
+
+        } else {
+
+            document
+                .getElementById(
+                    "needDisplay"
+                )
+                .textContent =
+                    "Need " +
+                    need +
+                    " run" +
+                    (
+                        need === 1
+                        ? ""
+                        : "s"
+                    );
+
+        }
+
+    } else {
+
+        targetBox.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    /*
+        Innings ended box.
+    */
+
+    const inningsEnded =
+        document.getElementById(
+            "inningsEnded"
+        );
+
+
+    if (
+        innings.ended &&
+        !match.matchEnded
+    ) {
+
+        inningsEnded.classList.remove(
+            "hidden"
+        );
+
+
+        if (
+            match.currentInnings === 1
+        ) {
+
+            inningsEnded.textContent =
+                "🏁 1ST INNINGS ENDED — " +
+                teamName +
+                " scored " +
+                innings.totalRuns +
+                "/" +
+                innings.wickets +
+                " in " +
+                formatOvers(
+                    innings.legalBalls
+                ) +
+                " overs. Target for " +
+                getTeamName(
+                    match.secondBattingTeam
+                ) +
+                " = " +
+                (
+                    innings.totalRuns + 1
+                ) +
+                ".";
+
+        } else {
+
+            inningsEnded.textContent =
+                "🏁 2ND INNINGS ENDED — " +
+                innings.totalRuns +
+                "/" +
+                innings.wickets +
+                " in " +
+                formatOvers(
+                    innings.legalBalls
+                ) +
+                " overs.";
+
+        }
+
+    } else {
+
+        inningsEnded.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    /*
+        Match ended.
+    */
+
+    const endBox =
+        document.getElementById(
+            "matchEnded"
+        );
+
+
+    if (match.matchEnded) {
+
+        endBox.classList.remove(
+            "hidden"
+        );
+
+
+        endBox.textContent =
+            "🏆 MATCH ENDED — " +
+            match.finalResult +
+            " | " +
+            getFinalScoreSummary();
+
+    } else {
+
+        endBox.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    /*
+        Current over.
+    */
+
+    renderCurrentOver();
+
+
+    /*
+        Scorecard.
+    */
+
+    renderScorecard();
+
+
+    /*
+        Ball history.
+    */
+
+    renderHistory();
+
+
+    /*
+        Over history.
+    */
+
+    renderOverHistory();
+
+
+    /*
+        Disable scoring after innings/match end.
+    */
+
+    document
+        .querySelectorAll(
+            ".scoring-grid button"
+        )
+        .forEach(
+            button => {
+
+                button.disabled =
+                    innings.ended ||
+                    match.matchEnded;
+
+                button.style.opacity =
+                    button.disabled
+                    ? "0.5"
+                    : "1";
+
+            }
+        );
+
+
+    renderPreviousMatches();
+
+}
+
+
+/* =====================================================
+   FORMAT OVERS
+===================================================== */
+
+function formatOvers(legalBalls) {
+
+    return (
+        Math.floor(
+            legalBalls / 6
+        ) +
+        "." +
+        (
+            legalBalls % 6
+        )
+    );
+
+}
+
+
+/* =====================================================
+   FINAL SCORE SUMMARY
+===================================================== */
+
+function getFinalScoreSummary() {
+
+    const first =
+        match.innings[1];
+
+
+    const second =
+        match.innings[2];
+
+
+    return (
+        getTeamName(first.team) +
+        " " +
+        first.totalRuns +
+        "/" +
+        first.wickets +
+        " (" +
+        formatOvers(
+            first.legalBalls
+        ) +
+        ") — " +
+
+        getTeamName(second.team) +
+        " " +
+        second.totalRuns +
+        "/" +
+        second.wickets +
+        " (" +
+        formatOvers(
+            second.legalBalls
+        ) +
+        ")"
+    );
+
+}
+
+
+/* =====================================================
+   CURRENT OVER RENDER
+===================================================== */
+
+function renderCurrentOver() {
+
+    const innings =
+        getInnings();
+
+
+    const over =
+        document.getElementById(
+            "currentOver"
+        );
+
+
+    over.innerHTML = "";
+
+
+    if (
+        innings.currentOver.length === 0
+    ) {
+
+        over.innerHTML =
+            `<span class="note">
+                No deliveries in current over.
+            </span>`;
+
+        return;
+
+    }
+
+
+    innings.currentOver.forEach(
+        delivery => {
+
+            const ball =
+                document.createElement(
+                    "div"
+                );
+
+
+            ball.className =
+                "ball";
+
+
+            if (!delivery.legal) {
+
+                ball.classList.add(
+                    "extra"
+                );
+
+            }
+
+
+            if (
+                delivery.type ===
+                "wicket"
+            ) {
+
+                ball.classList.add(
+                    "wicket"
+                );
+
+            }
+
+
+            ball.textContent =
+                delivery.label;
+
+
+            const number =
+                document.createElement(
+                    "span"
+                );
+
+
+            number.className =
+                "ball-number";
+
+
+            number.textContent =
+                delivery.ball;
+
+
+            ball.appendChild(
+                number
+            );
+
+
+            over.appendChild(
+                ball
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SCORECARD RENDER
+===================================================== */
+
+function renderScorecard() {
+
+    const innings =
+        getInnings();
+
+
+    const table =
+        document.getElementById(
+            "scorecard"
+        );
+
+
+    table.innerHTML = "";
+
+
+    innings.players.forEach(
+        (player, index) => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            let status =
+                player.status;
+
+
+            if (
+                index ===
+                innings.striker
+            ) {
+
+                status =
+                    "🏏 Striker";
+
+            } else if (
+                index ===
+                innings.nonStriker
+            ) {
+
+                status =
+                    "Non-Striker";
+
+            }
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(
+                            player.name
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${player.runs}
+                </td>
+
+                <td>
+                    ${player.balls}
+                </td>
+
+                <td>
+                    ${player.fours}
+                </td>
+
+                <td>
+                    ${player.sixes}
+                </td>
+
+                <td>
+                    ${status}
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   BALL HISTORY
+===================================================== */
+
+function renderHistory() {
+
+    const innings =
+        getInnings();
+
+
+    const history =
+        document.getElementById(
+            "history"
+        );
+
+
+    history.innerHTML = "";
+
+
+    if (
+        innings.history.length === 0
+    ) {
+
+        history.innerHTML =
+            `<p class="note">
+                No deliveries yet.
+            </p>`;
+
+        return;
+
+    }
+
+
+    innings.history
+        .slice()
+        .reverse()
+        .forEach(
+            delivery => {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "history-item";
+
+
+                div.innerHTML =
+                    `<strong>
+                        ${delivery.ball}
+                    </strong>
+                    — ${escapeHTML(
+                        deliveryDescription(
+                            delivery
+                        )
+                    )}`;
+
+
+                history.appendChild(
+                    div
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   OVER HISTORY
+===================================================== */
+
+function renderOverHistory() {
+
+    const innings =
+        getInnings();
+
+
+    const container =
+        document.getElementById(
+            "overHistory"
+        );
+
+
+    container.innerHTML = "";
+
+
+    /*
+        Combine completed overs and
+        current over for display.
+    */
+
+    const overs = [];
+
+
+    innings.oversHistory.forEach(
+        over => {
+
+            overs.push(
+                over
+            );
+
+        }
+    );
+
+
+    if (
+        innings.currentOver.length > 0
+    ) {
+
+        const currentOverNumber =
+            Math.floor(
+                innings.legalBalls / 6
+            ) + 1;
+
+
+        overs.push({
+
+            over:
+                currentOverNumber,
+
+            deliveries:
+                innings.currentOver
+
+        });
+
+    }
+
+
+    if (overs.length === 0) {
+
+        container.innerHTML =
+            `<p class="note">
+                No over history yet.
+            </p>`;
+
+        return;
+
+    }
+
+
+    overs
+        .slice()
+        .reverse()
+        .forEach(
+            over => {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "over-history-item";
+
+
+                div.innerHTML = `
+
+                    <div class="over-history-title">
+                        Over ${over.over}
+                    </div>
+
+                    <div
+                        class="over-history-balls">
+                    </div>
+
+                `;
+
+
+                const ballsContainer =
+                    div.querySelector(
+                        ".over-history-balls"
+                    );
+
+
+                over.deliveries.forEach(
+                    delivery => {
+
+                        const ball =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        ball.className =
+                            "history-ball";
+
+
+                        if (
+                            !delivery.legal
+                        ) {
+
+                            ball.classList.add(
+                                "extra"
+                            );
+
+                        }
+
+
+                        if (
+                            delivery.type ===
+                            "wicket"
+                        ) {
+
+                            ball.classList.add(
+                                "wicket"
+                            );
+
+                        }
+
+
+                        ball.textContent =
+                            delivery.ball +
+                            " " +
+                            delivery.label;
+
+
+                        ballsContainer.appendChild(
+                            ball
+                        );
+
+                    }
+                );
+
+
+                container.appendChild(
+                    div
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   PREVIOUS MATCHES
+===================================================== */
+
+function renderPreviousMatches() {
+
+    const container =
+        document.getElementById(
+            "previousMatches"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const savedMatches =
+        getSavedMatches();
+
+
+    container.innerHTML = "";
+
+
+    if (
+        savedMatches.length === 0
+    ) {
+
+        container.innerHTML =
+            `<p class="note">
+                No completed matches saved yet.
+                Completed matches will appear here.
+            </p>`;
+
+        return;
+
+    }
+
+
+    savedMatches.forEach(
+        (saved, index) => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "saved-match";
+
+
+            const first =
+                saved.innings?.[1];
+
+
+            const second =
+                saved.innings?.[2];
+
+
+            const firstScore =
+                first
+                ? first.totalRuns +
+                    "/" +
+                    first.wickets +
+                    " (" +
+                    formatOvers(
+                        first.legalBalls
+                    ) +
+                    ")"
+                : "—";
+
+
+            const secondScore =
+                second
+                ? second.totalRuns +
+                    "/" +
+                    second.wickets +
+                    " (" +
+                    formatOvers(
+                        second.legalBalls
+                    ) +
+                    ")"
+                : "—";
+
+
+            const firstTeam =
+                first
+                ? getSavedTeamName(
+                    saved,
+                    first.team
+                )
+                : "—";
+
+
+            const secondTeam =
+                second
+                ? getSavedTeamName(
+                    saved,
+                    second.team
+                )
+                : "—";
+
+
+            wrapper.innerHTML = `
+
+                <div
+                    class="saved-match-header"
+                    onclick="toggleSavedMatch(${index})">
+
+                    <h3>
+                        🏏 ${escapeHTML(
+                            saved.matchNo
+                        )}
+                    </h3>
+
+                    <div class="match-history-details">
+
+                        <strong>
+                            ${escapeHTML(
+                                saved.finalResult ||
+                                "Completed"
+                            )}
+                        </strong>
+
+                        <br>
+
+                        ${escapeHTML(
+                            firstTeam
+                        )}:
+                        ${firstScore}
+
+                        <br>
+
+                        ${escapeHTML(
+                            secondTeam
+                        )}:
+                        ${secondScore}
+
+                        <br>
+
+                        🪙 Toss:
+                        ${escapeHTML(
+                            getSavedTeamName(
+                                saved,
+                                saved.tossWinner
+                            )
+                        )}
+                        won and chose
+                        ${saved.tossDecision === "bat"
+                            ? "to bat"
+                            : "to bowl"
+                        }
+
+                        <br>
+
+                        <span class="note">
+                            ${escapeHTML(
+                                saved.completedAt ||
+                                ""
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="savedMatchBody-${index}"
+                    class="saved-match-body hidden">
+
+                    ${renderSavedMatchDetails(
+                        saved
+                    )}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SAVED TEAM NAME
+===================================================== */
+
+function getSavedTeamName(
+    saved,
+    team
+) {
+
+    return team === "A"
+        ? saved.teamA
+        : saved.teamB;
+
+}
+
+
+/* =====================================================
+   TOGGLE SAVED MATCH
+===================================================== */
+
+function toggleSavedMatch(index) {
+
+    const body =
+        document.getElementById(
+            "savedMatchBody-" +
+            index
+        );
+
+
+    if (!body) {
+        return;
+    }
+
+
+    body.classList.toggle(
+        "hidden"
+    );
+
+}
+
+
+/* =====================================================
+   RENDER SAVED MATCH DETAILS
+===================================================== */
+
+function renderSavedMatchDetails(saved) {
+
+    let html = "";
+
+
+    [1, 2].forEach(
+        inningsNumber => {
+
+            const innings =
+                saved.innings?.[
+                    inningsNumber
+                ];
+
+
+            if (!innings) {
+                return;
+            }
+
+
+            html += `
+
+                <h3>
+                    Innings ${inningsNumber} —
+                    ${escapeHTML(
+                        getSavedTeamName(
+                            saved,
+                            innings.team
+                        )
+                    )}
+
+                </h3>
+
+                <p>
+                    <strong>
+                        Score:
+                    </strong>
+
+                    ${innings.totalRuns}/
+                    ${innings.wickets}
+
+                    &nbsp; | &nbsp;
+
+                    <strong>
+                        Overs:
+                    </strong>
+
+                    ${formatOvers(
+                        innings.legalBalls
+                    )}
+                </p>
+
+            `;
+
+
+            if (
+                innings.history &&
+                innings.history.length > 0
+            ) {
+
+                const grouped =
+                    {};
+
+
+                innings.history.forEach(
+                    delivery => {
+
+                        const over =
+                            Math.floor(
+                                (
+                                    parseBallNumber(
+                                        delivery.ball
+                                    )
+                                ) / 6
+                            ) + 1;
+
+
+                        if (
+                            !grouped[over]
+                        ) {
+
+                            grouped[over] = [];
+
+                        }
+
+
+                        grouped[over].push(
+                            delivery
+                        );
+
+                    }
+                );
+
+
+                Object.keys(
+                    grouped
+                ).forEach(
+                    overNumber => {
+
+                        html += `
+
+                            <div class="saved-over">
+
+                                <div
+                                    class="saved-over-title">
+
+                                    Over
+                                    ${overNumber}
+
+                                </div>
+
+                        `;
+
+
+                        grouped[
+                            overNumber
+                        ].forEach(
+                            delivery => {
+
+                                let className =
+                                    "saved-ball";
+
+
+                                if (
+                                    !delivery.legal
+                                ) {
+
+                                    className +=
+                                        " extra";
+
+                                }
+
+
+                                if (
+                                    delivery.type ===
+                                    "wicket"
+                                ) {
+
+                                    className +=
+                                        " wicket";
+
+                                }
+
+
+                                html += `
+
+                                    <span
+                                        class="${className}">
+
+                                        ${escapeHTML(
+                                            delivery.ball
+                                        )}
+
+                                        ${escapeHTML(
+                                            delivery.label
+                                        )}
+
+                                    </span>
+
+                                `;
+
+                            }
+                        );
+
+
+                        html += `
+                            </div>
+                        `;
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    return html;
+
+}
+
+
+/* =====================================================
+   PARSE BALL NUMBER
+===================================================== */
+
+function parseBallNumber(label) {
+
+    if (!label) {
+        return 0;
+    }
+
+
+    const parts =
+        String(label)
+        .split(".");
+
+
+    if (parts.length !== 2) {
+        return 0;
+    }
+
+
+    const over =
+        Number(parts[0]) - 1;
+
+
+    const ball =
+        Number(parts[1]) - 1;
+
+
+    return (
+        over * 6 +
+        ball
+    );
+
+}
 
 
 /* =====================================================
    DELIVERY DESCRIPTION
 ===================================================== */
 
-function deliveryDescription(delivery) {
+function deliveryDescription(
+    delivery
+) {
 
     if (
         delivery.type ===
@@ -1615,7 +4269,10 @@ function deliveryDescription(delivery) {
         "wicket"
     ) {
 
-        return "Wicket";
+        return (
+            "Wicket — " +
+            delivery.striker
+        );
 
     }
 
@@ -1627,507 +4284,16 @@ function deliveryDescription(delivery) {
             delivery.runs === 1
             ? ""
             : "s"
-        )
+        ) +
+        " — " +
+        delivery.striker
     );
 
 }
 
 
-
 /* =====================================================
-   UNDO
-===================================================== */
-
-function undoLast() {
-
-    if (
-        !match ||
-        undoStack.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    match =
-        JSON.parse(
-            undoStack.pop()
-        );
-
-
-    render();
-
-}
-
-
-
-/* =====================================================
-   RESET MATCH
-===================================================== */
-
-function resetMatch() {
-
-    if (!match) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            "Reset this match to 0?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    const names =
-        match.players.map(
-            player =>
-                player.name
-        );
-
-
-    const totalOvers =
-        match.totalOvers;
-
-
-    const teamName =
-        match.teamName;
-
-
-    const matchNo =
-        match.matchNo;
-
-
-    match = {
-
-        matchNo: matchNo,
-
-        teamName: teamName,
-
-        totalOvers: totalOvers,
-
-        totalRuns: 0,
-
-        wickets: 0,
-
-        legalBalls: 0,
-
-        striker: 0,
-
-        nonStriker: 1,
-
-        currentOver: [],
-
-        history: [],
-
-        ended: false,
-
-        endReason: "",
-
-        players: names.map(
-            (name, index) => ({
-
-                name: name,
-
-                runs: 0,
-
-                balls: 0,
-
-                fours: 0,
-
-                sixes: 0,
-
-                status:
-                    index < 2
-                    ? "Not Out"
-                    : "Yet to Bat"
-
-            })
-        )
-
-    };
-
-
-    undoStack = [];
-
-    render();
-
-}
-
-
-
-/* =====================================================
-   NEW MATCH
-===================================================== */
-
-function newMatch() {
-
-    const confirmed =
-        confirm(
-            "Start a completely new match?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    match = null;
-
-    undoStack = [];
-
-
-    document
-        .getElementById("scoreSection")
-        .classList.add("hidden");
-
-
-    document
-        .getElementById("setupSection")
-        .classList.remove("hidden");
-
-}
-
-
-
-/* =====================================================
-   RENDER APPLICATION
-===================================================== */
-
-function render() {
-
-    if (!match) {
-        return;
-    }
-
-
-    document
-        .getElementById("teamDisplay")
-        .textContent =
-            match.teamName +
-            " • " +
-            match.matchNo;
-
-
-    document
-        .getElementById("runsDisplay")
-        .textContent =
-            match.totalRuns;
-
-
-    document
-        .getElementById("wicketsDisplay")
-        .textContent =
-            match.wickets;
-
-
-    document
-        .getElementById("completedOvers")
-        .textContent =
-            Math.floor(
-                match.legalBalls / 6
-            );
-
-
-    document
-        .getElementById("currentBall")
-        .textContent =
-            match.legalBalls % 6;
-
-
-    document
-        .getElementById("totalOversDisplay")
-        .textContent =
-            match.totalOvers;
-
-
-    document
-        .getElementById("strikerDisplay")
-        .textContent =
-            match.players[
-                match.striker
-            ]?.name || "—";
-
-
-    document
-        .getElementById("nonStrikerDisplay")
-        .textContent =
-            match.players[
-                match.nonStriker
-            ]?.name || "—";
-
-
-
-    /* MATCH END */
-
-    const endBox =
-        document.getElementById(
-            "matchEnded"
-        );
-
-
-    if (match.ended) {
-
-        endBox.classList.remove(
-            "hidden"
-        );
-
-
-        endBox.textContent =
-            "🏁 MATCH ENDED — " +
-            match.endReason +
-            " | Final Score: " +
-            match.totalRuns +
-            "/" +
-            match.wickets +
-            " in " +
-            Math.floor(
-                match.legalBalls / 6
-            ) +
-            "." +
-            (
-                match.legalBalls % 6
-            ) +
-            " overs";
-
-    } else {
-
-        endBox.classList.add(
-            "hidden"
-        );
-
-    }
-
-
-
-    /* CURRENT OVER */
-
-    const over =
-        document.getElementById(
-            "currentOver"
-        );
-
-
-    over.innerHTML = "";
-
-
-    if (
-        match.currentOver.length === 0
-    ) {
-
-        over.innerHTML =
-            `<span class="note">
-                No legal deliveries in current over.
-            </span>`;
-
-    } else {
-
-        match.currentOver.forEach(
-            delivery => {
-
-                const ball =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                ball.className =
-                    "ball";
-
-
-                if (!delivery.legal) {
-
-                    ball.classList.add(
-                        "extra"
-                    );
-
-                }
-
-
-                if (
-                    delivery.type ===
-                    "wicket"
-                ) {
-
-                    ball.classList.add(
-                        "wicket"
-                    );
-
-                }
-
-
-                ball.textContent =
-                    delivery.label;
-
-
-                over.appendChild(
-                    ball
-                );
-
-            }
-        );
-
-    }
-
-
-
-    /* SCORECARD */
-
-    const table =
-        document.getElementById(
-            "scorecard"
-        );
-
-
-    table.innerHTML = "";
-
-
-    match.players.forEach(
-        (player, index) => {
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${index + 1}
-                </td>
-
-                <td>
-                    <strong>
-                        ${escapeHTML(player.name)}
-                    </strong>
-                </td>
-
-                <td>
-                    ${player.runs}
-                </td>
-
-                <td>
-                    ${player.balls}
-                </td>
-
-                <td>
-                    ${player.fours}
-                </td>
-
-                <td>
-                    ${player.sixes}
-                </td>
-
-                <td>
-                    ${player.status}
-                </td>
-
-            `;
-
-
-            table.appendChild(
-                row
-            );
-
-        }
-    );
-
-
-
-    /* HISTORY */
-
-    const history =
-        document.getElementById(
-            "history"
-        );
-
-
-    history.innerHTML = "";
-
-
-    if (
-        match.history.length === 0
-    ) {
-
-        history.innerHTML =
-            `<p class="note">
-                No deliveries yet.
-            </p>`;
-
-    } else {
-
-        match.history
-            .slice()
-            .reverse()
-            .forEach(
-                (item, index) => {
-
-                    const div =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    div.className =
-                        "history-item";
-
-
-                    div.textContent =
-                        (
-                            match.history.length -
-                            index
-                        ) +
-                        ". " +
-                        item;
-
-
-                    history.appendChild(
-                        div
-                    );
-
-                }
-            );
-
-    }
-
-
-
-    /*
-        Disable scoring buttons
-        after innings ends.
-    */
-
-    document
-        .querySelectorAll(
-            ".scoring-grid button"
-        )
-        .forEach(
-            button => {
-
-                button.disabled =
-                    match.ended;
-
-                button.style.opacity =
-                    match.ended
-                    ? "0.5"
-                    : "1";
-
-            }
-        );
-
-}
-
-
-
-/* =====================================================
-   HTML ESCAPE
+   ESCAPE HTML
 ===================================================== */
 
 function escapeHTML(text) {
@@ -2147,6 +4313,7 @@ function escapeHTML(text) {
 
                 };
 
+
                 return map[
                     character
                 ];
@@ -2155,6 +4322,13 @@ function escapeHTML(text) {
         );
 
 }
+
+
+/* =====================================================
+   INITIALIZE HISTORY DISPLAY
+===================================================== */
+
+renderPreviousMatches();
 
 </script>
 
